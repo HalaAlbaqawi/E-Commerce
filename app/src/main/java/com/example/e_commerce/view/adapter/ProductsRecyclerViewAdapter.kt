@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.example.e_commerce.R
 import com.example.e_commerce.model.Product.Product
+import com.example.e_commerce.view.main.ProductsViewModel
 import com.squareup.picasso.Picasso
 
-class ProductsRecyclerViewAdapter() :
+class ProductsRecyclerViewAdapter(val viewModel: ProductsViewModel) :
     RecyclerView.Adapter<ProductsRecyclerViewAdapter.ProductsViewHolder>() {
     // diffutil to control the data also
    // to check if the data are the same or not
@@ -54,7 +55,12 @@ class ProductsRecyclerViewAdapter() :
         Picasso.get().load(item.imagePath).into(holder.productImageView)
 
         holder.favoriteToggleButton.setOnClickListener {
+            if (holder.favoriteToggleButton.isChecked)
+                viewModel.addFavoriteProduct(item.id)
+               else{
+                 viewModel.removeFavoriteProduct(item.id)
 
+}
         }
     }
 

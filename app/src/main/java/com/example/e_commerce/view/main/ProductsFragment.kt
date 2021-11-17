@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -50,7 +51,7 @@ class ProductsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       productAdapter = ProductsRecyclerViewAdapter()
+       productAdapter = ProductsRecyclerViewAdapter(productsViewModel)
        binding.productsRecyclerView.adapter = productAdapter
 
         // we call the fun
@@ -69,7 +70,12 @@ class ProductsFragment : Fragment() {
          productAdapter.submitList(it)
          allProducts = it
      })
+     // observe all the error in live data
+        productsViewModel.productsErrorLiveData.observe(viewLifecycleOwner,{
+            // to handle the error
+            Toast.makeText(requireActivity(),it,Toast.LENGTH_SHORT).show()
 
+        })
     }
 
 

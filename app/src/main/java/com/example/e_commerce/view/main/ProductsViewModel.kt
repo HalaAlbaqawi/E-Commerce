@@ -17,7 +17,7 @@ class ProductsViewModel :ViewModel () {
   private val apiRepo = ApiServiceRepository.get()
    // live data to call the product
    val productsLiveData = MutableLiveData<List<Product>>()
-    //
+    // it will gives us any error
    val productsErrorLiveData = MutableLiveData<String>()
 
     fun callProducts(){
@@ -52,25 +52,37 @@ class ProductsViewModel :ViewModel () {
            // handel the fail if we put product to favorite
            if (!response.isSuccessful)  {
             Log.d(TAG,response.message())
+            // to send the error to the fragment
             productsErrorLiveData.postValue(response.message())
 
+           }else {
+               Log.d(TAG,response.message())
+               productsErrorLiveData.postValue(response.message())
            }
            } catch (e:Exception){
            Log.d(TAG, e.message.toString())
-
+               productsErrorLiveData.postValue(e.message.toString())
            }
-
-
-
        }
-
-
     }
 
     fun removeFavoriteProduct(productId: Int){
 
+    viewModelScope.launch(Dispatchers.IO) {
+    try {
+        val response = apiRepo.removeFavoriteProduct(productId)
 
+        if (!response.isSuccessful){
 
+            Log.d(TAG,response.message())
+            productsErrorLiveData.postValue(response.message())
+        }
     }
+        catch (e: Exception){
+       Log.d(TAG, e.message.toString())
+       productsErrorLiveData.postValue(e.message.toString())
 
+        }
+}
+    }
 }
