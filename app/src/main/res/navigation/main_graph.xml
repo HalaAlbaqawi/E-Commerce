@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/productsFragment2">
+
+    <fragment
+        android:id="@+id/productsFragment2"
+        android:name="com.example.e_commerce.view.main.ProductsFragment"
+        android:label="@string/products"
+        tools:layout="@layout/fragment_products" >
+        <action
+            android:id="@+id/action_productsFragment2_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_productsFragment2_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.e_commerce.view.main.FavoriteFragment"
+        android:label="@string/favorites"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.e_commerce.view.identity.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.e_commerce.view.identity.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.e_commerce.view.identity.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+</navigation>
