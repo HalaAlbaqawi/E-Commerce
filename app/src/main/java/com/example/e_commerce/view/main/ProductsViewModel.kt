@@ -15,8 +15,10 @@ private const val TAG = "ProductsViewModel"
 class ProductsViewModel :ViewModel () {
 
   private val apiRepo = ApiServiceRepository.get()
-
+   // live data to call the product
    val productsLiveData = MutableLiveData<List<Product>>()
+    //
+   val productsErrorLiveData = MutableLiveData<String>()
 
     fun callProducts(){
 
@@ -41,6 +43,34 @@ class ProductsViewModel :ViewModel () {
 
         }
     }
+    }
+
+    fun addFavoriteProduct(productId: Int){
+       viewModelScope.launch(Dispatchers.IO) {
+           try {
+           val response = apiRepo.addFavoriteProduct(productId)
+           // handel the fail if we put product to favorite
+           if (!response.isSuccessful)  {
+            Log.d(TAG,response.message())
+            productsErrorLiveData.postValue(response.message())
+
+           }
+           } catch (e:Exception){
+           Log.d(TAG, e.message.toString())
+
+           }
+
+
+
+       }
+
+
+    }
+
+    fun removeFavoriteProduct(productId: Int){
+
+
+
     }
 
 }
