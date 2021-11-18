@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.e_commerce.R
 import com.example.e_commerce.databinding.FragmentProductsBinding
 import com.example.e_commerce.model.Product.Product
@@ -71,14 +72,42 @@ class ProductsFragment : Fragment() {
          allProducts = it
      })
      // observe all the error in live data
-        productsViewModel.productsErrorLiveData.observe(viewLifecycleOwner,{
-            // to handle the error
-            Toast.makeText(requireActivity(),it,Toast.LENGTH_SHORT).show()
+        productsViewModel.productsErrorLiveData.observe(viewLifecycleOwner,{ error ->
+            error?.let {
+                // to handle the error
+      Toast.makeText(requireActivity(),error,Toast.LENGTH_SHORT).show()
+                if (error == "Unauthorized")
+        // if you press favorite for any product when you're not login it will take to login fragment
+         findNavController().navigate(R.id.action_productsFragment2_to_loginFragment)
+         productsViewModel.productsErrorLiveData.postValue(null)
+            }
+
 
         })
     }
+  /// items inside the menu , listen on your click in menu option
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+      when(item.itemId){
+      // if you find this button do what written inside the "{}" (under this comment)
+        R.id.logout_item -> {
 
+        sharedPrefEditor.putString(TOKEN_KEY,"")
+        sharedPrefEditor.commit()
+        logoutItem.isVisible = false
+        profileItem.isVisible = false
 
+        // clear the favorite after you logout
+        productsViewModel.callProducts()
+        }
+
+        R.id.profile_item -> {
+         // to nav us from products to favorite fragment
+       findNavController().navigate(R.id.action_productsFragment2_to_profileFragment)
+        }
+
+      }
+        return super.onOptionsItemSelected(item)
+    }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         // to connect the action bar with menu

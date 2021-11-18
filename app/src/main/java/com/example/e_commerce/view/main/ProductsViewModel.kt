@@ -40,6 +40,7 @@ class ProductsViewModel :ViewModel () {
 
         } catch (e: Exception)
         {
+            Log.d(TAG, e.message.toString())
 
         }
     }

@@ -66,7 +66,7 @@ interface CommerceApi {
 suspend fun uploadImage(
   @Header("Authorization") token: String,
   @Part file: MultipartBody.Part
-): Response<RegisterBody>
+): Response<ResponseBody>
 
 
 }
