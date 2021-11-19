@@ -10,9 +10,12 @@ import androidx.fragment.app.activityViewModels
 import com.example.e_commerce.R
 import com.example.e_commerce.databinding.FragmentProfileBinding
 import com.squareup.picasso.Picasso
+import com.zhihu.matisse.Matisse
+import com.zhihu.matisse.MimeType
+import com.zhihu.matisse.internal.entity.CaptureStrategy
 
 class ProfileFragment : Fragment() {
-
+    private val IMAGE_PICKER = 0
     private lateinit var binding: FragmentProfileBinding
 
     // calling view model
@@ -33,6 +36,19 @@ class ProfileFragment : Fragment() {
 
         profileViewModel.callUserProfile()
 
+        binding.profileImageView.setOnClickListener {
+            showImagePicker()
+        }
+
+
+    }
+
+    fun showImagePicker(){
+
+     Matisse.from(this).choose(MimeType.ofImage(),false)
+         .capture(true)
+         .captureStrategy(CaptureStrategy(true,"com.example.e_commerce"))
+         .forResult(IMAGE_PICKER)
 
     }
 
