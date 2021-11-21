@@ -70,6 +70,8 @@ class ProductsFragment : Fragment() {
          // we put all the data inside the adapter
          productAdapter.submitList(it)
          allProducts = it
+         // to show the recycler view after the new data is coming
+         binding.productsRecyclerView.animate().alpha(1f)
      })
      // observe all the error in live data
         productsViewModel.productsErrorLiveData.observe(viewLifecycleOwner,{ error ->
@@ -96,6 +98,10 @@ class ProductsFragment : Fragment() {
         logoutItem.isVisible = false
         profileItem.isVisible = false
 
+         // to show the progress bar
+         binding.productsProgressBar.animate().alpha(1f)
+         // to hide the recycler view after logout
+         binding.productsRecyclerView.animate().alpha(0f)
         // clear the favorite after you logout
         productsViewModel.callProducts()
         }

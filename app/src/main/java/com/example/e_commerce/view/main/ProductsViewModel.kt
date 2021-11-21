@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.e_commerce.model.Product.Product
 import com.example.e_commerce.reposirotries.ApiServiceRepository
+import com.example.e_commerce.reposirotries.RoomServiceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -15,6 +16,8 @@ private const val TAG = "ProductsViewModel"
 class ProductsViewModel :ViewModel () {
 
   private val apiRepo = ApiServiceRepository.get()
+  private val databaseRepo = RoomServiceRepository.get()
+
    // live data to call the product
    val productsLiveData = MutableLiveData<List<Product>>()
     // it will gives us any error
@@ -30,6 +33,8 @@ class ProductsViewModel :ViewModel () {
                response.body()?.run {
              Log.d(TAG, this.toString())
              productsLiveData.postValue(products)
+             // to save the data in room data base
+             databaseRepo.insertProducts(products)
 
                }
 
@@ -59,10 +64,14 @@ class ProductsViewModel :ViewModel () {
            }else {
                Log.d(TAG,response.message())
                productsErrorLiveData.postValue(response.message())
+
+               productsLiveData.postValue(databaseRepo.getProducts())
            }
            } catch (e:Exception){
            Log.d(TAG, e.message.toString())
                productsErrorLiveData.postValue(e.message.toString())
+
+               productsLiveData.postValue(databaseRepo.getProducts())
            }
        }
     }

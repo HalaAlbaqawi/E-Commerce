@@ -77,5 +77,8 @@ class ApiServiceRepository (val conext: Context) {
 
             return instance ?: throw Exception("ApiServiceRepository must be initialized")
         }
+
     }
+    suspend fun getFavoriteProducts()=
+ retrofitApi.getFavoritProducts(("Bearer ${sharedPref.getString(TOKEN_KEY, "")}"))
 }

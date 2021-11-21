@@ -9,6 +9,7 @@ import com.example.e_commerce.R
 import com.example.e_commerce.databinding.ActivityMainBinding
 import com.example.e_commerce.databinding.ActivitySplashBinding
 import com.example.e_commerce.reposirotries.ApiServiceRepository
+import com.example.e_commerce.reposirotries.RoomServiceRepository
 
 class Splash : AppCompatActivity() {
 
@@ -19,6 +20,7 @@ class Splash : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // instance from repo
         ApiServiceRepository.init(this)
+        RoomServiceRepository.init(this)
         setContentView(binding.root)
 
       binding.motionLayout.setTransitionListener(object  : MotionLayout.TransitionListener{
